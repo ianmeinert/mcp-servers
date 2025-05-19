@@ -1,0 +1,38 @@
+{
+    "mcpServers": {
+        "filesystem": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "@modelcontextprotocol/server-filesystem",
+                "/path/to/Desktop",
+                "/path/to/Downloads"
+            ]
+        },
+        "langgraph-docs-mcp": {
+            "command": "/path/to/python/scripts/uvx",
+            "args": [
+                "--from",
+                "/project/path/to/mcpdoc",
+                "mcpdoc",
+                "--urls",
+                "LangGraph:https://langchain-ai.github.io/langraph/llms.txt",
+                "--transport",
+                "stdio",
+                "--port",
+                "8081",
+                "--host",
+                "localhost"
+            ]
+        },
+        "shell": {
+            "command": "/path/to/python/scripts/uv",
+            "args": [
+                "--directory",
+                "/project/path/to/shellserver",
+                "run",
+                "server.py"
+            ]
+        }
+    }
+}
