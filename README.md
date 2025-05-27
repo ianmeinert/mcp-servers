@@ -41,6 +41,7 @@ This repository contains a prototype implementation of Model Context Protocol (M
    ```
 
 3. Set up environment variables:
+
    ```bash
    cp .env_sample .env
    # Edit .env with your API keys and model names
@@ -55,6 +56,7 @@ This repository contains a prototype implementation of Model Context Protocol (M
    ```
 
 2. Install dependencies:
+
    ```bash
    uv add -r requirements.txt
    ```
@@ -71,6 +73,7 @@ This repository contains a prototype implementation of Model Context Protocol (M
    ```
 
 2. Run the LangChain client:
+
    ```bash
    uv run langchain_client.py
    ```
@@ -85,9 +88,16 @@ This repository contains a prototype implementation of Model Context Protocol (M
    ```
 
 2. Or run with Docker:
+
    ```bash
    docker build -t mcp-shellserver .
    docker run -p 8000:8000 mcp-shellserver
+   ```
+
+   To open a shell inside the running container:
+
+   ```bash
+   mcp-shellserverdocker exec -it mcp-shellserver /bin/bash
    ```
 
 ## Features
