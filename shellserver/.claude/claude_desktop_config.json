@@ -41,7 +41,63 @@
                 "/project/path/to/lang-chain-mcp-adapters",
                 "run",
                 "servers/pii_server.py"
-            ]
+            ],
+            "tools": {
+                "sanitize_input": {
+                    "description": "Sanitize input text by masking PII",
+                    "parameters": {
+                        "text": "Input text containing PII",
+                        "session_id": "Session identifier for tracking PII mappings"
+                    }
+                },
+                "restore_pii": {
+                    "description": "Restore original PII values in the text",
+                    "parameters": {
+                        "text": "Text with masked PII",
+                        "session_id": "Session identifier for retrieving PII mappings"
+                    }
+                },
+                "process_with_pii": {
+                    "description": "Complete PII processing flow: sanitize, process, and restore PII",
+                    "parameters": {
+                        "text": "The input text containing PII",
+                        "session_id": "Session identifier for tracking PII mappings"
+                    }
+                }
+            }
         }
+    },
+    "preprocessing": {
+        "enabled": true,
+        "pipeline": [
+            {
+                "server": "pii-handler",
+                "tool": "sanitize_input",
+                "description": "First sanitize any PII in the input",
+                "parameters": {
+                    "session_id": {
+                        "type": "auto_generate",
+                        "prefix": "claude_",
+                        "include_timestamp": true
+                    }
+                }
+            }
+        ]
+    },
+    "postprocessing": {
+        "enabled": true,
+        "pipeline": [
+            {
+                "server": "pii-handler",
+                "tool": "restore_pii",
+                "description": "Finally restore any PII in the output",
+                "parameters": {
+                    "session_id": {
+                        "type": "inherit",
+                        "from": "preprocessing"
+                    }
+                }
+            }
+        ]
     }
 }
