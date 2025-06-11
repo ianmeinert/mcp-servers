@@ -10,7 +10,8 @@ A collection of adapters and example servers for integrating [LangChain](https:/
 - **LangChain Integration:** Use MCP tools as part of your LangChain agent workflows.
 - **Multi-Server Support:** Connect to multiple MCP servers (stdio and SSE).
 - **Gemini & OpenAI Support:** Easily switch between LLM providers.
-- **PII Handling:** Secure handling of Personally Identifiable Information with LangSmith tracking.
+- **PII Handling:** Secure handling of Personally Identifiable Information with session tracking, database management, and LangSmith integration.
+- **Enhanced Security:** Improved PII processing with session management and comprehensive logging.
 
 ---
 
@@ -51,7 +52,7 @@ A collection of adapters and example servers for integrating [LangChain](https:/
 ├── servers/
 │   ├── math_server.py     # Math MCP server (add, multiply)
 │   ├── weather_server.py  # Weather MCP server (example)
-│   └── pii_server.py      # PII handling server (sanitization and restoration)
+│   └── pii_server.py      # PII handling server (sanitization, restoration, and session tracking)
 ├── .env_sample            # Sample environment variables
 ├── pyproject.toml         # Project dependencies
 └── README.md              # This file
@@ -79,10 +80,13 @@ uv run servers/weather_server.py
 uv run servers/pii_server.py
 ```
 
-The PII server provides two main tools:
+The PII server provides enhanced functionality for secure PII handling:
 
-1. `sanitize_input`: Masks PII in input text
-2. `restore_pii`: Restores original PII values in processed text
+1. `sanitize_input`: Masks PII in input text with session tracking
+2. `restore_pii`: Restores original PII values in processed text using secure database management
+3. **Session Management:** Tracks PII processing sessions for audit and security
+4. **Database Management:** Secure storage and retrieval of PII data
+5. **Comprehensive Logging:** Detailed logging of all PII operations
 
 Example usage:
 
@@ -90,13 +94,13 @@ Example usage:
 # Input text with PII
 text = "Contact me at john@example.com or 555-123-4567"
 
-# Sanitize the input
+# Sanitize the input with session tracking
 sanitized = sanitize_input(text)
 # Result: "Contact me at [MASKED_EMAIL_15] or [MASKED_PHONE_12]"
 
 # Process with LLM...
 
-# Restore PII in the response
+# Restore PII in the response using secure database lookup
 restored = restore_pii(sanitized)
 # Result: "Contact me at john@example.com or 555-123-4567"
 ```

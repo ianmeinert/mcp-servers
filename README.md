@@ -10,7 +10,7 @@ This repository contains a prototype implementation of Model Context Protocol (M
 ```
 .
 ├── lang-chain-mcp-adapters/    # LangChain integration with MCP
-│   ├── servers/                # Example MCP servers (math, weather)
+│   ├── servers/                # Example MCP servers (math, weather, PII)
 │   ├── langchain_client.py     # Multi-server client example
 │   └── main.py                # Basic MCP server connection example
 └── shellserver/               # Python MCP server implementation
@@ -65,11 +65,13 @@ This repository contains a prototype implementation of Model Context Protocol (M
 
 ### Running the LangChain MCP Adapters
 
-1. Start an MCP server (e.g., math server):
+1. Start an MCP server (e.g., math server or PII server):
 
    ```bash
    cd lang-chain-mcp-adapters
    uv run servers/math_server.py
+   # or
+   uv run servers/pii_server.py
    ```
 
 2. Run the LangChain client:
@@ -97,16 +99,18 @@ This repository contains a prototype implementation of Model Context Protocol (M
    To open a shell inside the running container:
 
    ```bash
-   mcp-shellserverdocker exec -it mcp-shellserver /bin/bash
+   docker exec -it mcp-shellserver /bin/bash
    ```
 
 ## Features
 
 - **Multiple Server Types**: Support for both stdio and SSE transport protocols
 - **LangChain Integration**: Seamless integration with LangChain agents
-- **Example Servers**: Math and weather server implementations included
+- **Example Servers**: Math, weather, and PII server implementations included
+- **PII Handling**: Secure processing of Personally Identifiable Information with session tracking and database management
 - **Docker Support**: Containerized deployment option for the shell server
 - **Extensible Architecture**: Easy to add new MCP servers and tools
+- **Security Features**: Enhanced security with improved PII handling, session management, and logging
 
 ## Contributing
 

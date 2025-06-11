@@ -10,6 +10,8 @@ A Model Context Protocol (MCP) server implementation that provides terminal comm
 - **Docker Support**: Containerized deployment option
 - **FastMCP Integration**: Uses the FastMCP framework for MCP protocol implementation
 - **uv Integration**: Fast dependency management and virtual environment handling
+- **Enhanced Security**: Improved security with comprehensive logging and audit trails
+- **PII Protection**: Secure handling of Personally Identifiable Information
 
 ## Prerequisites
 
