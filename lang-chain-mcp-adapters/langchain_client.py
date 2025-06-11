@@ -11,28 +11,22 @@ from langgraph.prebuilt import create_react_agent
 
 load_dotenv()
 
-# Get the current directory and construct the path to math_server.py
+# Get the current directory and construct paths to server files
 current_dir = Path(__file__).parent
 math_server_path = current_dir / "servers" / "math_server.py"
+pii_server_path = current_dir / "servers" / "pii_server.py"
 
 # Initialize the LLM with a fallback model
 model_name = os.getenv("GOOGLE_MODEL", "gemini-2.0-flash")
 llm = ChatGoogleGenerativeAI(model=model_name)
 
 client_params = {
-        "math": {
-            "command": "python",
-            # Make sure to update to the full absolute path to your math_server.py file
-            "args": [str(math_server_path)],
-            "transport": "stdio",
-        },
-        "weather": {
-            # make sure you start your weather server on port 8000
-            "url": "http://localhost:8000/sse",
-            "transport": "sse",
-        }
+    "pii": {
+        "command": "python",
+        "args": [str(pii_server_path)],
+        "transport": "stdio",
     }
-
+}
 
 async def main():
     try:
@@ -40,12 +34,35 @@ async def main():
         client = MultiServerMCPClient(client_params)
         tools = await client.get_tools()
         agent = create_react_agent(llm, tools)
-        math_response = await agent.ainvoke({"messages": HumanMessage(content="what's (3 + 5) x 12?")})
-        weather_response = await agent.ainvoke({"messages": HumanMessage(content="what is the weather in nyc?")})
-        print(math_response["messages"][-1].content)
-        print(weather_response["messages"][-1].content)
+        
+        # Test email with PII
+        email_content = """
+Generate an order confirmation email using a fictitious product addressed to the following customer:
+
+Name: John Doe 
+Address: 123 Someplace Dr 
+City: Somewhere, DC 12345 
+Phone: (123) 456-7890 
+Email: me@myemail.com 
+Credit Card Number: 1234 5678 9012 3456
+"""
+        
+        # Process the email with PII handling
+        response = await agent.ainvoke({
+            "messages": HumanMessage(content=f"Use the process_with_pii tool to generate an email with this customer information: {email_content}")
+        })
+        
+        if response and "messages" in response and response["messages"]:
+            print("\nGenerated email with PII handling:")
+            print(response["messages"][-1].content)
+        else:
+            print("No response received from the agent")
+            
     except Exception as e:
-        print(f"Error occurred: {e}")
+        print(f"Error occurred: {str(e)}")
+        import traceback
+        print("Full error traceback:")
+        print(traceback.format_exc())
 
 if __name__ == "__main__":
     asyncio.run(main())

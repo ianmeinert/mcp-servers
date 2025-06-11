@@ -38,18 +38,21 @@ A Model Context Protocol (MCP) server implementation that provides terminal comm
    ```bash
    uv venv .venv
    source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-   uv pip sync requirements.txt
+   uv sync
    ```
 
    Or use uv's built-in virtual environment management:
 
    ```bash
-   uv run --venv
+   uv venv .venv
+   .venv\Scripts\activate
+   uv sync
    ```
 
 ### Docker Installation
 
 1. Build the Docker image (uses uv for dependency management):
+
    ```bash
    docker build -t mcp-shellserver .
    ```
@@ -101,6 +104,7 @@ docker run -p 8000:8000 mcp-shellserver
   ```
 
 - Install from requirements.txt:
+
   ```bash
   uv pip sync requirements.txt
   ```
@@ -120,6 +124,7 @@ docker run -p 8000:8000 mcp-shellserver
   ```
 
 - Run scripts in the virtual environment:
+
   ```bash
   uv run --venv script.py
   ```
@@ -191,6 +196,7 @@ To add a new tool to the server:
    ```
 
 3. Install any new dependencies:
+
    ```bash
    uv pip install new_dependency
    uv pip freeze > requirements.txt

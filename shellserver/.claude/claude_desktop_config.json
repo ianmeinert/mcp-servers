@@ -33,6 +33,15 @@
                 "run",
                 "server.py"
             ]
+        },
+        "pii-handler": {
+            "command": "/path/to/python/scripts/uv",
+            "args": [
+                "--directory",
+                "/project/path/to/lang-chain-mcp-adapters",
+                "run",
+                "servers/pii_server.py"
+            ]
         }
     }
 }

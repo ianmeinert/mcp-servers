@@ -1,15 +1,16 @@
 # LangChain MCP Adapters
 
-A collection of adapters and example servers for integrating [LangChain](https://github.com/langchain-ai/langchain) with the Model Context Protocol (MCP). This project demonstrates how to connect LLM agents to external tools and APIs using MCP servers, including math and weather examples.
+A collection of adapters and example servers for integrating [LangChain](https://github.com/langchain-ai/langchain) with the Model Context Protocol (MCP). This project demonstrates how to connect LLM agents to external tools and APIs using MCP servers, including math, weather, and PII handling examples.
 
 ---
 
 ## Features
 
-- **MCP Server Examples:** Math and Weather servers included, easily extensible.
+- **MCP Server Examples:** Math, Weather, and PII handling servers included, easily extensible.
 - **LangChain Integration:** Use MCP tools as part of your LangChain agent workflows.
 - **Multi-Server Support:** Connect to multiple MCP servers (stdio and SSE).
 - **Gemini & OpenAI Support:** Easily switch between LLM providers.
+- **PII Handling:** Secure handling of Personally Identifiable Information with LangSmith tracking.
 
 ---
 
@@ -19,6 +20,7 @@ A collection of adapters and example servers for integrating [LangChain](https:/
 
 - Python 3.8+
 - [uv](https://github.com/astral-sh/uv) (for fast dependency management and running scripts)
+- LangSmith API key (for PII server tracking)
 
 ### Installation
 
@@ -45,10 +47,11 @@ A collection of adapters and example servers for integrating [LangChain](https:/
 ```
 .
 ├── main.py                # Example: Connects to math MCP server and runs a query
-├── langchain_client.py    # Example: Multi-server client (math, weather)
+├── langchain_client.py    # Example: Multi-server client (math, weather, PII)
 ├── servers/
 │   ├── math_server.py     # Math MCP server (add, multiply)
-│   └── weather_server.py  # Weather MCP server (example)
+│   ├── weather_server.py  # Weather MCP server (example)
+│   └── pii_server.py      # PII handling server (sanitization and restoration)
 ├── .env_sample            # Sample environment variables
 ├── pyproject.toml         # Project dependencies
 └── README.md              # This file
@@ -68,6 +71,34 @@ uv run servers/math_server.py
 
 ```bash
 uv run servers/weather_server.py
+```
+
+### Running the PII Handler Server
+
+```bash
+uv run servers/pii_server.py
+```
+
+The PII server provides two main tools:
+
+1. `sanitize_input`: Masks PII in input text
+2. `restore_pii`: Restores original PII values in processed text
+
+Example usage:
+
+```python
+# Input text with PII
+text = "Contact me at john@example.com or 555-123-4567"
+
+# Sanitize the input
+sanitized = sanitize_input(text)
+# Result: "Contact me at [MASKED_EMAIL_15] or [MASKED_PHONE_12]"
+
+# Process with LLM...
+
+# Restore PII in the response
+restored = restore_pii(sanitized)
+# Result: "Contact me at john@example.com or 555-123-4567"
 ```
 
 ### Running the LangChain Client

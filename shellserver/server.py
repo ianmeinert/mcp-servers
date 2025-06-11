@@ -8,24 +8,7 @@ from mcp.server.fastmcp import FastMCP
 # Create an MCP server
 mcp = FastMCP("Terminal Server")
 
-# Get the desktop path
-DESKTOP_PATH = str(Path.home() / "Desktop")
 
-@mcp.resource("readme://desktop")
-async def get_readme() -> str:
-    """Get the contents of README.md from the desktop directory.
-    
-    Returns:
-        The contents of the README.md file as a string
-    """
-    try:
-        readme_path = os.path.join(DESKTOP_PATH, "README.md")
-        if os.path.exists(readme_path):
-            with open(readme_path, 'r', encoding='utf-8') as f:
-                return f.read()
-        return "README.md not found on desktop"
-    except Exception as e:
-        return f"Error reading README.md: {str(e)}"
 
 @mcp.tool()
 async def run_command(command: str) -> str:
