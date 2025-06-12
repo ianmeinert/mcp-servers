@@ -45,7 +45,7 @@ A collection of adapters and example servers for integrating [LangChain](https:/
 
 ## Project Structure
 
-```
+```text
 .
 ├── main.py                # Example: Connects to math MCP server and runs a query
 ├── langchain_client.py    # Example: Multi-server client (math, weather, PII)
@@ -113,7 +113,7 @@ uv run langchain_client.py
 
 ### Example Output
 
-```
+```text
 Starting LangChain client...
 Loading tools from math server...
 Loaded 2 tools

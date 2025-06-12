@@ -168,7 +168,7 @@ async def get_readme() -> str:
 
 ## Project Structure
 
-```
+```text
 shellserver/
 ├── server.py          # Main server implementation
 ├── Dockerfile         # Container configuration
