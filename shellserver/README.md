@@ -35,29 +35,43 @@ A Model Context Protocol (MCP) server implementation that provides terminal comm
    cd shellserver
    ```
 
-3. Create a virtual environment and install dependencies in one step:
+3. Create and activate virtual environment:
 
    ```bash
    uv venv .venv
    source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-   uv sync
    ```
 
-   Or use uv's built-in virtual environment management:
+4. Install dependencies:
 
    ```bash
-   uv venv .venv
-   .venv\Scripts\activate
    uv sync
    ```
 
 ### Docker Installation
 
-1. Build the Docker image (uses uv for dependency management):
+1. Build the Docker image:
 
    ```bash
    docker build -t mcp-shellserver .
    ```
+
+## Environment Variables
+
+The server can be configured using the following environment variables:
+
+- `MCP_SERVER_PORT`: Port number for the server (default: 8000)
+- `MCP_SERVER_HOST`: Host address to bind to (default: 0.0.0.0)
+- `MCP_LOG_LEVEL`: Logging level (default: INFO)
+- `MCP_ALLOWED_PATHS`: Comma-separated list of allowed file system paths
+- `MCP_MAX_COMMAND_SIZE`: Maximum size of command input in bytes (default: 8192)
+
+To set these variables, create a `.env` file in the shellserver directory:
+
+```bash
+cp .env_sample .env  # If .env_sample exists
+# Edit .env with your desired configuration
+```
 
 ## Usage
 
@@ -69,16 +83,10 @@ A Model Context Protocol (MCP) server implementation that provides terminal comm
    source .venv/bin/activate  # On Windows: .venv\Scripts\activate
    ```
 
-2. Run the server using uv:
+2. Run the server:
 
    ```bash
    uv run server.py
-   ```
-
-   Or run directly with the virtual environment:
-
-   ```bash
-   uv run --venv server.py
    ```
 
 ### Running with Docker
@@ -89,82 +97,44 @@ Run the container:
 docker run -p 8000:8000 mcp-shellserver
 ```
 
-## Development with uv
-
-### Managing Dependencies
-
-- Add new dependencies:
-
-  ```bash
-  uv pip install package_name
-  ```
-
-- Update requirements.txt:
-
-  ```bash
-  uv pip freeze > requirements.txt
-  ```
-
-- Install from requirements.txt:
-
-  ```bash
-  uv pip sync requirements.txt
-  ```
-
-### Virtual Environment Management
-
-- Create a new virtual environment:
-
-  ```bash
-  uv venv .venv
-  ```
-
-- Activate the virtual environment:
-
-  ```bash
-  source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-  ```
-
-- Run scripts in the virtual environment:
-
-  ```bash
-  uv run --venv script.py
-  ```
-
-## Available Tools
-
-### Terminal Command Execution
-
-The server provides a `run_command` tool that executes shell commands:
-
-```python
-@mcp.tool()
-async def run_command(command: str) -> str:
-    """Execute a terminal command and return its output."""
-```
-
-Example usage:
-
-```python
-result = await run_command("ls -la")
-```
-
-### File System Access
-
-The server provides a `readme://desktop` resource that reads README.md from the desktop:
-
-```python
-@mcp.resource("readme://desktop")
-async def get_readme() -> str:
-    """Get the contents of README.md from the desktop directory."""
-```
-
 ## Security Considerations
 
-- The server runs commands in a controlled environment
-- Command execution is sandboxed within the container when using Docker
-- File system access is limited to specific directories
-- All operations are logged for audit purposes
+The server implements several security measures to ensure safe operation:
+
+### Command Execution Security
+
+- Command validation and sanitization
+- Restricted command execution environment
+- Command timeout limits
+- Output size limits
+
+### File System Security
+
+- Path validation and sanitization
+- Restricted file system access
+- File type validation
+- Access control lists
+
+### Container Security
+
+- Docker-based isolation
+- Resource limits
+- Network isolation
+- Read-only filesystem where possible
+
+### Logging and Monitoring
+
+- Comprehensive operation logging
+- Security event tracking
+- Performance monitoring
+- Error reporting
+
+### Best Practices
+
+- Regular security updates
+- Dependency scanning
+- Secure configuration
+- Documentation of security features
 
 ## Project Structure
 

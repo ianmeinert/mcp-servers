@@ -7,7 +7,7 @@ This repository contains a prototype implementation of Model Context Protocol (M
 
 ## Project Structure
 
-```
+```text
 .
 ├── lang-chain-mcp-adapters/    # LangChain integration with MCP
 │   ├── servers/                # Example MCP servers (math, weather, PII)
@@ -34,13 +34,20 @@ This repository contains a prototype implementation of Model Context Protocol (M
    cd lang-chain-mcp-adapters
    ```
 
-2. Install dependencies:
+2. Create and activate virtual environment:
 
    ```bash
-   uv add -r requirements.txt
+   uv venv .venv
+   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
    ```
 
-3. Set up environment variables:
+3. Install dependencies:
+
+   ```bash
+   uv sync
+   ```
+
+4. Set up environment variables:
 
    ```bash
    cp .env_sample .env
@@ -55,10 +62,17 @@ This repository contains a prototype implementation of Model Context Protocol (M
    cd shellserver
    ```
 
-2. Install dependencies:
+2. Create and activate virtual environment:
 
    ```bash
-   uv add -r requirements.txt
+   uv venv .venv
+   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   uv sync
    ```
 
 ## Usage
@@ -111,6 +125,16 @@ This repository contains a prototype implementation of Model Context Protocol (M
 - **Docker Support**: Containerized deployment option for the shell server
 - **Extensible Architecture**: Easy to add new MCP servers and tools
 - **Security Features**: Enhanced security with improved PII handling, session management, and logging
+
+## Security
+
+Both components include comprehensive security features:
+
+- **PII Protection**: Secure handling of Personally Identifiable Information
+- **Session Management**: Secure session tracking and management
+- **Audit Logging**: Comprehensive logging of all operations
+- **Container Security**: Docker-based isolation for the shell server
+- **Access Control**: Controlled access to system resources
 
 ## Contributing
 

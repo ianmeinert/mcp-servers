@@ -32,13 +32,20 @@ A collection of adapters and example servers for integrating [LangChain](https:/
    cd lang-chain-mcp-adapters
    ```
 
-2. **Install dependencies using uv:**
+2. **Create and activate virtual environment:**
 
    ```bash
-   uv add -r requirements.txt
+   uv venv .venv
+   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
    ```
 
-3. **Set up environment variables:**
+3. **Install dependencies:**
+
+   ```bash
+   uv sync
+   ```
+
+4. **Set up environment variables:**
    - Copy `.env_sample` to `.env` and fill in your API keys and model names.
 
 ---
@@ -164,3 +171,42 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 ## License
 
 [MIT](LICENSE)
+
+## Security
+
+The LangChain MCP Adapters include several security features to ensure safe operation:
+
+### PII Protection
+
+- Secure handling of Personally Identifiable Information
+- Automatic masking of sensitive data
+- Secure storage and retrieval of PII data
+- Session-based tracking of PII operations
+
+### Session Management
+
+- Unique session IDs for each PII operation
+- Secure session tracking and management
+- Automatic session cleanup
+- Audit trail of all session activities
+
+### Logging and Monitoring
+
+- Comprehensive logging of all operations
+- Detailed audit trails
+- Error tracking and reporting
+- Performance monitoring
+
+### Access Control
+
+- API key management
+- Rate limiting
+- Resource access controls
+- Secure configuration management
+
+### Best Practices
+
+- Regular security updates
+- Dependency vulnerability scanning
+- Secure coding practices
+- Documentation of security features
