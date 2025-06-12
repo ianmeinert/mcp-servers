@@ -5,15 +5,14 @@
             "args": [
                 "-y",
                 "@modelcontextprotocol/server-filesystem",
-                "/path/to/Desktop",
-                "/path/to/Downloads"
+                "/path/to/filesystem/public"
             ]
         },
         "langgraph-docs-mcp": {
             "command": "/path/to/python/scripts/uvx",
             "args": [
                 "--from",
-                "/project/path/to/mcpdoc",
+                "/path/to/mcpdoc",
                 "mcpdoc",
                 "--urls",
                 "LangGraph:https://langchain-ai.github.io/langraph/llms.txt",
@@ -29,7 +28,7 @@
             "command": "/path/to/python/scripts/uv",
             "args": [
                 "--directory",
-                "/project/path/to/shellserver",
+                "/path/to/shellserver",
                 "run",
                 "server.py"
             ]
@@ -38,9 +37,9 @@
             "command": "/path/to/python/scripts/uv",
             "args": [
                 "--directory",
-                "/project/path/to/lang-chain-mcp-adapters",
+                "/path/to/lang-chain-mcp-adapters/servers",
                 "run",
-                "servers/pii_server.py"
+                "pii_server.py"
             ],
             "tools": {
                 "sanitize_input": {
@@ -55,13 +54,6 @@
                     "parameters": {
                         "text": "Text with masked PII",
                         "session_id": "Session identifier for retrieving PII mappings"
-                    }
-                },
-                "process_with_pii": {
-                    "description": "Complete PII processing flow: sanitize, process, and restore PII",
-                    "parameters": {
-                        "text": "The input text containing PII",
-                        "session_id": "Session identifier for tracking PII mappings"
                     }
                 }
             }

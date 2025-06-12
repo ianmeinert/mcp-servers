@@ -13,12 +13,13 @@ Features:
 - Complete PII processing flow with sanitization and restoration
 """
 
-import re
-import sqlite3
 import logging
 import os
-from typing import Dict, Optional, Any
+import re
+import sqlite3
 from dataclasses import dataclass
+from typing import Dict, Optional
+
 from mcp.server.fastmcp import FastMCP
 
 # Configure logging
@@ -439,43 +440,6 @@ def restore_pii(text: str, session_id: Optional[str] = None) -> str:
         return "\n".join(processed_lines)
     except sqlite3.Error as e:
         logger.error("Error in restore_pii: %s", str(e))
-        raise
-
-
-@mcp.tool()
-def process_with_pii(text: str, session_id: Optional[str] = None) -> Dict[str, Any]:
-    """Process text with PII handling: sanitize, process, and restore PII.
-
-    This function:
-    1. Sanitizes the input text to mask PII
-    2. Processes the sanitized text
-    3. Restores the original PII values in the response
-
-    Args:
-        text: The input text containing PII
-        session_id: Session identifier for tracking PII mappings
-
-    Returns:
-        Dictionary containing:
-            - sanitized_text: The text with PII masked
-            - processed_text: The processed text (currently same as sanitized)
-            - restored_text: The final text with PII restored
-
-    Raises:
-        sqlite3.Error: If database operations fail
-    """
-    try:
-        sanitized_text = sanitize_input(text, session_id)
-        processed_text = sanitized_text
-        result_restored_text = restore_pii(processed_text, session_id)
-
-        return {
-            "sanitized_text": sanitized_text,
-            "processed_text": processed_text,
-            "restored_text": result_restored_text,
-        }
-    except sqlite3.Error as e:
-        logger.error("Error in process_with_pii: %s", str(e))
         raise
 
 
