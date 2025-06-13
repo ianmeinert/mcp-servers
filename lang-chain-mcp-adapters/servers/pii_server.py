@@ -32,20 +32,6 @@ mcp = FastMCP("PIIHandler")
 # Database configuration
 DB_PATH = "pii_mappings.db"
 
-# Test data for demonstration
-TEST_TEXT = """
-Name: John Doe 
-Address: 123 Someplace Dr 
-City, State, Zip: Somewhere, DC 12345 
-Phone: (123) 456-7890 
-Email: me@myemail.com 
-Credit Card Number: 1234 5678 9012 3456
-SSN: 123-45-6789
-"""
-
-# Test session configuration
-TEST_SESSION_ID = "test_session_123"
-
 
 @dataclass
 class PIIPattern:
@@ -444,6 +430,19 @@ def restore_pii(text: str, session_id: Optional[str] = None) -> str:
 
 
 if __name__ == "__main__":
+    # Test data for demonstration
+    TEST_TEXT = """
+    Name: John Doe 
+    Address: 123 Someplace Dr 
+    City, State, Zip: Somewhere, DC 12345 
+    Phone: (123) 456-7890 
+    Email: me@myemail.com 
+    Credit Card Number: 1234 5678 9012 3456
+    SSN: 123-45-6789
+    """
+
+    # Test session configuration
+    TEST_SESSION_ID = "test_session_123"
     # Test the PII handling
     print("\nOriginal text:")
     print(TEST_TEXT)
