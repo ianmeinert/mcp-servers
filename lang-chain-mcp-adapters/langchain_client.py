@@ -15,8 +15,8 @@ Features:
 
 import asyncio
 import os
-from pathlib import Path
 import traceback
+from pathlib import Path
 
 from dotenv import load_dotenv
 from langchain_core.messages import HumanMessage
@@ -34,7 +34,9 @@ pii_server_path = current_dir / "servers" / "pii_server.py"
 
 # Initialize the LLM with a fallback model if environment variable is not set
 model_name = os.getenv("GOOGLE_MODEL", "gemini-2.0-flash")
-llm = ChatGoogleGenerativeAI(model=model_name)
+# Make sure the environment variable is set
+api_key = os.getenv("GOOGLE_API_KEY")
+llm = ChatGoogleGenerativeAI(model=model_name, google_api_key=api_key)
 
 # Configure client parameters for the PII server
 client_params = {

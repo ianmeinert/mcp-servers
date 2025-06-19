@@ -57,6 +57,24 @@
                     }
                 }
             }
+        },
+        "psychologist": {
+            "command": "/path/to/python/scripts/uv",
+            "args": [
+                "--directory",
+                "/path/to/lang-chain-mcp-adapters/servers",
+                "run",
+                "psychologist_server.py"
+            ],
+            "tools": {
+                "animal_personality_conversation": {
+                    "description": "Conversational animal personality quiz. Guides the user through three animal questions and provides a psychological analysis based on their answers.",
+                    "parameters": {
+                        "state": "Current state of the quiz (dict with keys: first, second, third)",
+                        "answer": "The user's latest animal answer (string or null)"
+                    }
+                }
+            }
         }
     },
     "preprocessing": {
